@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Árbol de Navidad con Luces</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #222;
+    margin: 0;
+  }
+  .tree {
+    display: inline-block;
+    color: #00ff00;
+  }
+  .light {
+    color: #f00;
+    animation: blink 1s infinite;
+  }
+  @keyframes blink {
+    0%, 100% {opacity: 1;}
+    50% {opacity: 0;}
+  }
+</style>
+</head>
+<body>
+  <pre id="tree" class="tree"></pre>
+  <script>
+    const treeString = [
+      "       *",
+      "      ***",
+      "     *****",
+      "    *******",
+      "   *********",
+      "  ***********",
+      " *************",
+      "***************",
+      "      |||"
+    ];
+
+    function createLights(tree) {
+      const treeLines = tree.slice();
+      const numLights = 10;
+
+      for (let i = 0; i < numLights; i++) {
+        const line = Math.floor(Math.random() * treeLines.length);
+        const char = Math.floor(Math.random() * treeLines[line].length);
+
+        if (treeLines[line][char] === '*') {
+          treeLines[line] = treeLines[line].substr(0, char) + '<span class="light">*</span>' + treeLines[line].substr(char + 1);
+        } else {
+          i--;
+        }
+      }
+
+      return treeLines.join("\n");
+    }
+
+    function renderTree() {
+      document.getElementById('tree').innerHTML = createLights(treeString);
+    }
+
+    renderTree();
+    setInterval(renderTree, 1000);
+  </script>
+</body>
+</html>
